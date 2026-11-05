@@ -10,14 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   THEME — Graphite signal. Đổi màu ở đây (light + dark)
+   THEME — Forest & sage. Đổi màu ở đây (light + dark)
    --side: màu khung đen · --accent: cam cho mảng màu
    --accent-ink: cam đậm cho chữ/link trên nền trắng
    ============================================================ */
 :root{
-  --paper:#FFFFFF; --surface:#F6F7F9; --ink:#23272F; --muted:#5E6470; --line:#ECEDF0;
-  --side:#23272F; --side-2:#363B45; --side-ink:#FFFFFF; --side-muted:#A9AFBA;
-  --accent:#FF6A2B; --accent-ink:#C2470F; --on-accent:#23272F;
+  --paper:#FFFFFF; --gutter:#F2F7F3; --surface:#F4F7F5; --ink:#1F2A26; --muted:#5B6661; --line:#E3EAE6;
+  --side:#1F3A33; --side-2:#2E5148; --side-ink:#FFFFFF; --side-muted:#B3C8BD;
+  --accent:#93B9A0; --accent-ink:#3E7A5C; --on-accent:#1F3A33;
   --head:"Sora", "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif;
   --sans:"DM Sans", "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif;
   --hdr:260px;
@@ -28,51 +28,54 @@
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --paper:#16181D; --surface:#1E2128; --ink:#ECEDF0; --muted:#9AA0AB; --line:#2C313A;
-    --side:#0F1115; --side-2:#2A2E36; --side-muted:#9AA0AB; --accent-ink:#FF8A57; color-scheme:dark;
+    --paper:#121A17; --gutter:#0C1210; --surface:#18221F; --ink:#E6EEEA; --muted:#9DB0A7; --line:#26342F;
+    --side:#0D1714; --side-2:#22362F; --side-muted:#9DB0A7; --accent-ink:#A8CBB4; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#16181D; --surface:#1E2128; --ink:#ECEDF0; --muted:#9AA0AB; --line:#2C313A;
-  --side:#0F1115; --side-2:#2A2E36; --side-muted:#9AA0AB; --accent-ink:#FF8A57; color-scheme:dark;
+  --paper:#121A17; --gutter:#0C1210; --surface:#18221F; --ink:#E6EEEA; --muted:#9DB0A7; --line:#26342F;
+  --side:#0D1714; --side-2:#22362F; --side-muted:#9DB0A7; --accent-ink:#A8CBB4; color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hdr) + env(safe-area-inset-top,0px))}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--gutter);color:var(--ink);font-family:var(--sans);font-size:1.03rem;line-height:1.62;-webkit-font-smoothing:antialiased}
+/* Màn hình lớn: chữ và bố cục tự phóng to để không trống hai bên */
+html{font-size:clamp(16px, calc(9px + .5vw), 19px)}
 a{color:var(--accent-ink);text-decoration:none;text-underline-offset:3px}
 a:hover{text-decoration:underline}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
 img{max-width:100%;display:block}
 .wrap{min-height:100vh}
+/* Đóng khung: toàn trang là một "tờ giấy" trắng, hai bên lề xanh bạc hà */
+.wrap{max-width:min(1500px, 92vw);margin:0 auto;background:var(--paper);border-inline:1px solid var(--line);overflow:clip}
 
-/* ---------- Khung đen phía trên (đứng yên khi cuộn) ---------- */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--side);color:var(--side-ink);border-bottom:4px solid var(--accent)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--side)}
-.top-in{max-width:1180px;margin:0 auto;padding:26px 32px 0;display:grid;
-  grid-template-columns:var(--ph,150px) minmax(0,1fr) 300px;gap:0 28px;align-items:start}
+/* ---------- Khung trên cùng — nền trắng, đứng yên khi cuộn ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);color:var(--ink);border-bottom:4px solid var(--accent);box-shadow:0 6px 20px rgba(20,24,32,.06)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--paper)}
+.top-in{max-width:min(1500px, 92vw);margin:0 auto;padding:26px 32px 0;display:grid;
+  grid-template-columns:var(--ph,150px) minmax(0,1fr);gap:0 clamp(24px,2.4vw,44px);align-items:start}
 .portrait{width:140px;height:140px;object-fit:cover;object-position:50% 15%;border-radius:50%;border:3px solid var(--accent)}
 .name{font-family:var(--head);font-weight:600;font-size:1.65rem;line-height:1.2;letter-spacing:-.02em;margin:0}
 .hanzi{font-family:var(--sans);font-weight:400;color:var(--accent);font-size:1rem;letter-spacing:.14em;margin-left:8px}
-.role{margin:4px 0 0;color:var(--accent);font-size:.9rem;font-weight:500}
-.bio{margin:8px 0 0;font-size:.9rem;line-height:1.55;color:#D3D7DE;max-width:70ch;text-align:justify;hyphens:none;-webkit-hyphens:none;overflow-wrap:normal;word-break:normal}
+.role{margin:4px 0 0;color:var(--accent-ink);font-size:.9rem;font-weight:500}
+.bio{margin:8px 0 0;font-size:.9rem;line-height:1.55;color:var(--ink);max-width:none;text-align:justify;hyphens:none;-webkit-hyphens:none;overflow-wrap:normal;word-break:normal}
 .status{display:inline-flex;margin-top:10px;font-size:.84rem;font-weight:500;background:var(--accent);color:var(--on-accent);padding:4px 12px;border-radius:4px}
-.me{display:block;align-self:start}
+.me{display:block;align-self:start;grid-row:1}
 .me .portrait{width:var(--ph,150px);height:var(--ph,150px);border-radius:14px;object-position:50% 18%}
 .name{text-transform:uppercase;letter-spacing:.01em}
-.name .given{color:var(--accent)}
+.name .given{color:var(--accent-ink)}
 .quick{display:none;flex-direction:column;gap:6px}
 .quick a{display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--head);font-size:.8rem;font-weight:500;
   color:var(--side-ink);border:1.5px solid var(--accent);border-radius:999px;padding:5px 10px}
 .quick a:hover{background:var(--accent);color:var(--on-accent);text-decoration:none}
 .quick svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.contact{list-style:none;padding:0;margin:0;font-size:.88rem}
-.contact li{padding:7px 0;border-top:1px solid var(--side-2);display:flex;gap:10px;align-items:baseline}
-.contact li:last-child{border-bottom:1px solid var(--side-2)}
-.contact .k{color:var(--side-muted);font-size:.78rem;width:58px;flex:none}
-.contact a{color:var(--side-ink);text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px}
+.contact{grid-column:1/-1;list-style:none;padding:0;margin:14px 0 0;font-size:.88rem;display:flex;flex-wrap:wrap;justify-content:center;gap:2px 28px}
+.contact li{padding:2px 0;display:flex;gap:10px;align-items:baseline}
+.contact .k{color:var(--muted);font-size:.78rem}
+.contact a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px}
 .contact a,.contact span{overflow-wrap:anywhere}
-nav.toc{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px;margin-top:18px;padding:10px 0 14px;border-top:1px solid var(--side-2);
+nav.toc{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:4px;margin-top:18px;padding:10px 0 10px;border-top:0;background:var(--side);box-shadow:0 0 0 100vmax var(--side);clip-path:inset(0 -100vmax);
   font-family:var(--head);font-size:.86rem}
 nav.toc a{color:var(--side-muted);padding:5px 12px;border-radius:4px}
 nav.toc a:first-child{margin-left:auto}
@@ -80,15 +83,125 @@ nav.toc a:last-child{margin-right:auto}
 nav.toc a:hover{color:var(--side-ink);text-decoration:none;background:var(--side-2)}
 nav.toc a.on{color:var(--on-accent);background:var(--accent)}
 .mnav{display:none}
+nav.pages{font-size:.92rem}
+nav.pages a{padding:5px 16px}
+.subnav{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:center;gap:2px 6px;padding:7px 0;font-family:var(--head);font-size:.8rem;
+  background:var(--surface);box-shadow:0 0 0 100vmax var(--surface);clip-path:inset(0 -100vmax)}
+.subnav a{color:var(--muted);padding:3px 10px}
+.subnav a:hover{color:var(--ink);text-decoration:none}
+.subnav a.on{color:var(--ink);box-shadow:inset 0 -2px var(--accent)}
+.subnav .lbl{align-self:center;color:var(--muted);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 12px 2px 0;margin-right:4px;border-right:1px solid var(--line)}
+
+/* Publications page */
+.intro{color:var(--muted);margin:-6px 0 22px}
+.pub-actions{display:flex;gap:8px;align-items:center;margin-top:8px}
+.pub-actions:empty{display:none}
+.btn{display:inline-flex;align-items:center;font-family:var(--head);font-size:.76rem;font-weight:600;padding:3px 12px;border-radius:4px;background:var(--accent);color:var(--on-accent)}
+.btn:hover{text-decoration:none;filter:brightness(.94)}
+.btn.pdf{background:var(--side);color:#FFFFFF}
+.btn.pdf::before{content:"";width:9px;height:11px;margin-right:6px;background:currentColor;clip-path:polygon(0 0,65% 0,100% 30%,100% 100%,0 100%)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.soon{font-size:.8rem;color:var(--muted);font-style:italic}
+
+/* Dải tiêu đề tối (Publications, News) */
+html,body{overflow-x:clip}
+.page-hero{margin:0 calc(50% - 50vw);background:var(--side);border-top:1px solid var(--side-2);border-bottom:4px solid var(--accent)}
+.page-hero-in{max-width:min(1500px, 92vw);margin:0 auto;padding:34px 32px;display:flex;justify-content:space-between;align-items:center;gap:24px}
+.hero-title{font-family:var(--head);font-weight:600;font-size:clamp(1.8rem,3.2vw,2.5rem);line-height:1.1;letter-spacing:-.015em;margin:0;color:#FFFFFF}
+.hero-sub{margin:8px 0 0;color:var(--side-muted);font-size:1rem;max-width:62ch}
+.hero-ico svg{display:block;width:clamp(64px,8vw,104px);height:auto}
+.page-hero.in .page-hero-in{animation:heroIn .45s ease both}
+@keyframes heroIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.page-hero.in .page-hero-in{animation:none}}
+.page-hero + section{padding-top:30px}
+/* Khối ảnh/tên/giới thiệu chỉ hiện ở trang About */
+html:not([data-view="about"]) .top-in{display:none}
+html:not([data-view="about"]) .top{border-bottom:0;box-shadow:none}
+
+/* Trích dẫn ở trang About */
+.cites{list-style:none;margin:0;padding:0}
+.cites li{display:flex;justify-content:space-between;align-items:baseline;gap:8px 24px;padding:14px 0;border-top:1px solid #D2DCD7;font-size:.95rem;line-height:1.6}
+.cites li:first-child{border-top:0;padding-top:4px}
+.cite strong{font-weight:700;color:var(--accent-ink)}
+.cite-more{flex:none;white-space:nowrap;font-family:var(--head);font-size:.8rem;font-weight:600;color:var(--accent-ink)}
+.see-all{align-self:center;display:inline-block;margin-top:28px;font-family:var(--head);font-weight:600;font-size:.92rem;padding:11px 24px;border-radius:6px;background:var(--accent-ink);color:#FFFFFF}
+.see-all:hover{text-decoration:none;background:var(--side)}
+.pub.flash{animation:flash 1.8s ease}
+@keyframes flash{0%,40%{background:color-mix(in srgb,var(--accent) 22%,transparent)}100%{background:transparent}}
+
+/* PDF viewer */
+.pdfv{position:fixed;inset:0;z-index:100;background:rgba(13,23,20,.62);display:flex;align-items:center;justify-content:center;padding:3vh 3vw}
+.pdfv[hidden]{display:none}
+.pdfv-box{width:min(1100px,100%);height:100%;background:var(--paper);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.pdfv-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--side);border-bottom:3px solid var(--accent)}
+.pdfv-title{flex:1;min-width:0;color:var(--side-ink);font-family:var(--head);font-size:.86rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn.ghost-light{background:transparent;color:var(--side-ink);box-shadow:inset 0 0 0 1.5px var(--side-muted)}
+.pdfv-x{background:none;border:0;color:var(--side-ink);font-size:1.1rem;cursor:pointer;padding:2px 6px;border-radius:4px}
+.pdfv-x:hover{background:var(--side-2)}
+#pdfv-frame{flex:1;width:100%;border:0;background:#525659}
+
+/* News page */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px}
+.ncard{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden;color:var(--ink);background:var(--paper);transition:transform .15s,box-shadow .15s,border-color .15s}
+.ncard:hover{text-decoration:none;transform:translateY(-3px);box-shadow:0 10px 24px rgba(20,24,32,.08);border-color:var(--accent)}
+.nimg{aspect-ratio:16/10;background:var(--surface);overflow:hidden;border-bottom:3px solid var(--accent)}
+.nimg img{width:100%;height:100%;object-fit:cover}
+.nbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ncard h3{font-family:var(--head);font-size:1.02rem;font-weight:600;margin:0;line-height:1.35}
+.ncard p{margin:0;color:var(--muted);font-size:.92rem}
+.readmore{margin-top:auto;padding-top:6px;color:var(--accent-ink);font-weight:600;font-size:.86rem}
+.nbody .meta,.story .meta{display:flex;gap:10px;align-items:center;font-size:.82rem;color:var(--muted)}
+.empty{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.ncard,.ncard:hover{transition:none;transform:none}}
+
+/* News timeline */
+.tl-year{display:grid;grid-template-columns:90px minmax(0,1fr);gap:0 24px}
+.tl-year + .tl-year{margin-top:10px}
+.tl-y{font-family:var(--head);font-weight:600;font-size:1.7rem;line-height:1;color:var(--accent-ink);padding-top:18px;position:sticky;top:calc(var(--hdr) + 18px);align-self:start}
+.tl-items{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.tl-item{position:relative;display:grid;grid-template-columns:56px minmax(0,1fr);gap:0 14px;padding:16px 0 18px 22px}
+.tl-item::before{content:"";position:absolute;left:-7px;top:24px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--paper)}
+.tl-date{font-family:var(--head);font-weight:600;font-size:.86rem;color:var(--muted);padding-top:4px}
+.tl-card{display:grid;grid-template-columns:minmax(180px,260px) minmax(0,1fr);gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper)}
+.tl-card.no-img{grid-template-columns:1fr}
+.tl-img{background:var(--surface);border-right:3px solid var(--accent)}
+.tl-img img{width:100%;height:100%;min-height:180px;max-height:260px;object-fit:cover}
+.tl-body{padding:16px 20px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.tl-body h3{font-family:var(--head);font-size:1.06rem;font-weight:600;margin:2px 0 0;line-height:1.35}
+.tl-text p{margin:0 0 10px;color:var(--muted);font-size:.95rem;line-height:1.65}
+.tl-text p:last-child{margin-bottom:0}
+.tl-text.clamp{max-height:7.2em;overflow:hidden}
+.tl-text.clamp.fade{-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
+.tl-more{font:inherit;font-size:.86rem;font-weight:600;color:var(--accent-ink);background:none;border:0;padding:2px 0;cursor:pointer}
+
+/* Story */
+#story{max-width:780px;margin:0 auto;width:100%}
+.back{display:inline-block;margin-bottom:22px;font-family:var(--head);font-weight:600;font-size:.9rem}
+.story-title{font-family:var(--head);font-size:clamp(1.5rem,2.4vw,2rem);line-height:1.25;letter-spacing:-.01em;margin:10px 0 22px}
+.story-img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--line);border-bottom:4px solid var(--accent);margin:0 0 26px}
+.story p{font-size:1.04rem;line-height:1.78;margin:0 0 16px;text-align:justify}
+.story-nav{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);margin-top:34px;padding-top:18px;font-size:.9rem}
+
+/* Thanh trên cùng: tên trang bên trái, menu bên phải */
+.topbar{background:var(--side)}
+.topbar-in{max-width:min(1500px, 92vw);margin:0 auto;padding:8px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-family:var(--head);font-weight:600;font-size:.98rem;color:var(--side-ink);letter-spacing:.01em;white-space:nowrap}
+.brand:hover{text-decoration:none;color:var(--accent)}
+.topbar nav.toc{margin:0;padding:0;background:none;box-shadow:none;clip-path:none;flex-wrap:nowrap;justify-content:flex-end;overflow:visible}
+.topbar nav.toc a:first-child{margin-left:0}
+.topbar nav.toc a:last-child{margin-right:0}
+.subnav{margin-top:18px}
 
 /* ---------- Nội dung ---------- */
-main{max-width:1000px;margin:0 auto;padding:0 32px}
+main{max-width:min(1500px, 92vw);margin:0 auto;padding:0 32px}
 main section{padding:56px 0 48px}
 main section + section{border-top:1px solid var(--line)}
 h2{font-family:var(--head);font-weight:600;font-size:1.12rem;text-transform:uppercase;letter-spacing:.08em;margin:0 0 24px;
-  display:flex;align-items:center;gap:12px}
-h2::before{content:"";width:14px;height:14px;background:var(--accent);flex:none}
-h2::after{content:"";height:3px;width:56px;background:var(--accent);margin-left:6px}
+  display:flex;align-items:center;gap:0}
+h2::before{content:none}
+h2 > span{display:inline-flex;align-items:center;gap:10px;background:var(--side);color:#FFFFFF;padding:9px 18px 9px 14px;border-radius:4px}
+h2 > span::before{content:"";width:10px;height:10px;background:var(--accent);flex:none}
+h2::after{content:"";flex:1;height:2px;background:var(--side);margin-left:0}
 .interests{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0;list-style:none}
 .interests li{background:var(--accent);color:var(--on-accent);border-radius:4px;padding:8px 16px;font-size:.96rem;font-weight:500}
 
@@ -113,8 +226,10 @@ h2::after{content:"";height:3px;width:56px;background:var(--accent);margin-left:
 .pub-group + .pub-group{margin-top:32px}
 .pub-group h3{display:inline-block;font-size:.8rem;font-weight:700;color:var(--on-accent);background:var(--accent);padding:2px 9px;border-radius:3px;margin:0 0 12px}
 .pubs{list-style:none;margin:0;padding:0}
-.pub{padding:16px 0 16px 16px;border-top:1px solid var(--line);border-left:3px solid transparent}
-.pub:hover{border-left-color:var(--accent)}
+.pub{position:relative;padding:20px 0;border-top:1px solid #D2DCD7}
+.pub::before{content:"";position:absolute;left:0;top:-2px;width:44px;height:3px;background:var(--accent)}
+.pubs > .pub:first-child{border-top:0;padding-top:4px}
+.pubs > .pub:first-child::before{display:none}
 .pub-title{font-family:var(--head);font-size:1.04rem;line-height:1.45;font-weight:500;margin:0;letter-spacing:-.005em}
 .pub-title a{color:var(--ink)}
 .pub-authors{font-size:.93rem;margin:6px 0 2px}
@@ -128,8 +243,10 @@ h2::after{content:"";height:3px;width:56px;background:var(--accent);margin-left:
 .pub details p{font-size:.94rem;color:var(--muted);max-width:72ch;margin:10px 0 0;padding:14px 16px;background:var(--surface);border-left:3px solid var(--accent);line-height:1.65}
 
 /* Education / Experience / Activities */
-.entry{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:2px 16px;padding:18px 0;border-top:1px solid var(--line)}
-.entry:first-of-type{border-top:0;padding-top:0}
+.entry{position:relative;display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:2px 16px;padding:26px 0;border-top:1px solid #D2DCD7}
+.entry::before{content:"";position:absolute;left:0;top:-2px;width:52px;height:3px;background:var(--accent)}
+.entry:first-of-type{border-top:0;padding-top:4px}
+.entry:first-of-type::before{display:none}
 .entry .logo{grid-column:1;grid-row:1/3;width:52px;height:52px;border-radius:8px;display:flex;align-items:center;justify-content:center;
   background:var(--accent);color:var(--on-accent);font-family:var(--head);font-weight:600;font-size:.74rem;letter-spacing:.02em;overflow:hidden}
 .entry .logo.has-img{background:#FFFFFF;border:1px solid var(--line);padding:6px}
@@ -144,6 +261,7 @@ h2::after{content:"";height:3px;width:56px;background:var(--accent);margin-left:
 .entry li::marker{color:var(--accent)}
 .skills{display:grid;grid-template-columns:160px minmax(0,1fr);gap:0;margin:0;font-size:.96rem}
 .skills dt,.skills dd{padding:12px 0;border-top:1px solid var(--line)}
+.skills dt:first-of-type,.skills dt:first-of-type + dd{border-top:0}
 .skills dt{font-family:var(--head);font-weight:600;color:var(--accent-ink)}
 .skills dd{margin:0;color:var(--muted)}
 .refs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
@@ -151,7 +269,7 @@ h2::after{content:"";height:3px;width:56px;background:var(--accent);margin-left:
 .ref-name{font-family:var(--head);font-size:.98rem;font-weight:600}
 .ref-meta{color:var(--muted);font-size:.9rem}
 .ref-note{color:var(--muted);font-size:.88rem;margin:18px 0 0}
-footer{max-width:1000px;margin:0 auto;padding:20px 32px 40px;color:var(--muted);font-size:.84rem;border-top:3px solid var(--accent);text-align:center}
+footer{max-width:min(1500px, 92vw);margin:0 auto;padding:20px 32px 40px;color:var(--muted);font-size:.84rem;border-top:3px solid var(--accent);text-align:center}
 
 /* Doodles */
 main section{display:flex;flex-direction:column}
@@ -171,42 +289,48 @@ main section{display:flex;flex-direction:column}
 
 /* Cuộn theo từng mục (máy tính) */
 @media (min-width:721px){
-  html{scroll-snap-type:y mandatory}
-  main section{min-height:calc(100vh - var(--hdr) - env(safe-area-inset-top,0px));scroll-snap-align:start}
-  #news{min-height:calc(100vh - var(--hdr) - env(safe-area-inset-top,0px) - 90px)}
+  html.snap{scroll-snap-type:y mandatory}
+  [data-view="about"] > section{min-height:calc(100vh - var(--hdr) - env(safe-area-inset-top,0px));scroll-snap-align:start}
+  #activities,[data-view="publications"] > section,[data-view="news"] > section{min-height:calc(100vh - var(--hdr) - env(safe-area-inset-top,0px) - 90px)}
 }
 /* Màn hình vừa: khung đen gọn hơn */
 @media (max-width:1000px) and (min-width:721px){
-  .top-in{grid-template-columns:var(--ph,150px) minmax(0,1fr);padding:20px 24px 0}
-  .portrait{width:112px;height:112px}
-  .contact{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:center;gap:0 24px;margin-top:12px}
-  .contact li,.contact li:last-child{border:0;padding:2px 0}
-  .contact .k{width:auto}
+  .top-in{padding:20px 24px 0}
   .bio{font-size:.86rem}
-  .me{grid-row:1}
   nav.toc{gap:2px;margin-top:14px;padding:8px 0 10px;font-size:.8rem;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
   nav.toc a{padding:4px 8px;white-space:nowrap}
 }
 /* Điện thoại: khung đen cuộn đi, thanh menu dính ở trên */
 @media (max-width:720px){
+  .wrap{max-width:none;border-inline:0}
   .top{position:static}
   .top-in{grid-template-columns:88px minmax(0,1fr);gap:0 16px;padding:24px 20px 20px}
-  .top .id{display:contents}
-  .top .name,.top .role{grid-column:2}
   .name{font-size:1.35rem}
   .hanzi{display:block;margin:2px 0 0}
-  .bio,.status,.contact{grid-column:1/-1}
-  .me{grid-row:1/3;align-self:center}
   .me .portrait{width:88px;height:88px}
-  .bio{margin-top:14px}
-  .contact{margin-top:14px}
-  nav.toc{display:none}
-  .mnav{display:flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:10;gap:6px;overflow-x:auto;scrollbar-width:none;
-    background:var(--side);border-bottom:3px solid var(--accent);padding:10px 16px;font-family:var(--head);font-size:.84rem;white-space:nowrap}
+  .bio{text-align:left}
+  .contact{gap:2px 18px}
+  nav.toc,.subnav{display:none!important}
+  .topbar{display:none}
+  .mnav .brand{margin-right:auto;font-size:.74rem;padding:4px 4px 4px 2px;background:none!important}
+  .story p{text-align:left}
+  .page-hero-in{padding:24px 20px}
+  .hero-sub{font-size:.92rem}
+  .cites li{flex-direction:column;gap:4px}
+  .tl-year{grid-template-columns:1fr;gap:4px}
+  .tl-y{position:static;padding-top:4px;font-size:1.35rem}
+  .tl-item{grid-template-columns:1fr;padding-left:18px}
+  .tl-date{padding:0 0 6px}
+  .tl-card{grid-template-columns:1fr}
+  .tl-img{border-right:0;border-bottom:3px solid var(--accent)}
+  .tl-img img{max-height:220px;min-height:0;aspect-ratio:16/10}
+  .mnav{display:flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:10;gap:2px;overflow-x:auto;align-items:center;scrollbar-width:none;
+    background:var(--side);border-bottom:3px solid var(--accent);padding:8px 10px;font-family:var(--head);font-size:.84rem;white-space:nowrap}
   .mnav::-webkit-scrollbar{display:none}
-  .mnav a{color:var(--side-muted);padding:4px 10px;border-radius:4px}
+  .mnav a{color:var(--side-muted);padding:4px 6px;border-radius:4px;font-size:.74rem}
   .mnav a:hover{text-decoration:none}
   .mnav a.on{color:var(--on-accent);background:var(--accent)}
+  .top{box-shadow:none}
   html{scroll-padding-top:calc(52px + env(safe-area-inset-top,0px))}
   main{padding:0 20px}
   main section{padding:40px 0 36px}
@@ -214,7 +338,7 @@ main section{display:flex;flex-direction:column}
   .year-label{position:static;padding-top:6px;font-size:1.35rem}
   .skills{grid-template-columns:1fr}
   .skills dd{border-top:0;padding-top:0}
-  .entry{grid-template-columns:44px minmax(0,1fr)}
+  .entry{grid-template-columns:44px minmax(0,1fr);padding:20px 0}
   .entry .logo{width:44px;height:44px;grid-row:1/3}
   .entry .when{grid-column:2;grid-row:2;text-align:left}
   .entry .pos{grid-column:2;grid-row:3}
@@ -223,6 +347,8 @@ main section{display:flex;flex-direction:column}
   footer{padding:16px 20px 36px}
 }
 @media print{
+  body{background:#fff}
+  .wrap{max-width:none;border:0}
   .filters,.more,nav.toc,.mnav{display:none}
   .top{position:static}
   .pub details{display:none}
@@ -232,8 +358,8 @@ main section{display:flex;flex-direction:column}
 <body>
 
 <div class="wrap">
+  <nav class="mnav" id="mnav" aria-label="Pages"></nav>
   <header class="top" id="sidebar"></header>
-  <nav class="mnav" id="mnav" aria-label="Sections"></nav>
   <main id="main"></main>
   <footer id="footer"></footer>
 </div>
@@ -245,8 +371,12 @@ main section{display:flex;flex-direction:column}
    - Thêm bài báo: thêm vào publications.conference / underReview / inPreparation.
    - Trường nào để trống "" thì trang sẽ tự ẩn.
    ================================================================== */
+/* LINK TRONG NỘI DUNG: ở bullet, chức danh, abstract, skills và news, viết [chữ hiển thị](link)
+   vd "Project website: [digitwinaihub.com](https://digitwinaihub.com)". Trên máy tính, link mở trong khung
+   xem ngay trên trang (nền mờ phía sau); trang nào không cho nhúng (LinkedIn, Google…) thì mở tab mới. */
 const PROFILE = {
   name: "Duy Anh Pham Lam",
+  siteTitle: "Pham Lam Duy Anh’s Page",   // tên trang, hiện góc trái thanh trên cùng
   givenName: "Duy Anh",   // phần tên được tô màu cam trong tiêu đề
   nativeName: "",          // tên tiếng Hoa (để trống = ẩn)
   role: "MSc in Marketing",
@@ -267,34 +397,67 @@ const PROFILE = {
   status: "",           // dòng trạng thái nổi bật (vd: "Seeking PhD positions for 2027") — để trống thì ẩn
   interests: ["Quantitative marketing", "Social marketing", "Digital marketing", "AI in marketing"],
 
-  /* NEWS — chưa có tin nào. Thêm tin theo mẫu (bỏ dấu // ở đầu dòng):
-     date: "YYYY-MM" hoặc "YYYY" · type: tự đặt (vd Publication, Research, Talk, Award...)
-     — nút lọc sẽ tự sinh theo các type bạn dùng.
+  /* NEWS — các dấu ấn ngắn, hiển thị theo dòng thời gian (mới nhất ở trên).
+     Mỗi tin: 1 ảnh + tối đa 300 chữ. Copy mẫu dưới đây, dán ngay sau dòng "news: [" rồi sửa:
+
+     { date: "2026-12",                      // "YYYY-MM" (hoặc "YYYY" nếu không nhớ tháng)
+       type: "Academic",                     // nhãn tự đặt: Academic, Publication, Research, Volunteer, Talk, Award…
+       title: "Defended my Master’s thesis", // tiêu đề ngắn
+       image: "news/2026-12-thesis.jpg",     // ảnh đã upload vào thư mục news/ (để "" nếu không có ảnh)
+       alt: "At the thesis defense",         // (tuỳ chọn) mô tả ảnh
+       text: "Đoạn 1…\n\nĐoạn 2…" },        // ≤ 300 chữ; \n\n = xuống đoạn
   */
   news: [
-    // { date: "2026-12", type: "Milestone", title: "Tiêu đề tin", text: "Mô tả ngắn 1–2 câu." },
+    /* ---- 4 TIN DEMO — xoá hoặc thay bằng tin thật trước khi gửi giáo sư ---- */
+    {"date": "2026-11", "type": "Publication", "title": "Our ICAEW study is presented at ICAEFM 2026", "image": "news/demo-1.png", "text": "I am happy to share that our paper on subjective norm, tuition provider reputation and the intention to pursue the ICAEW qualification has been accepted at the 4th International Conference on Accounting, Economics, Finance and Management (ICAEFM 2026).\n\nThe study draws on 268 survey responses from learners at T.A.D Learning and uses PLS-SEM to test six drivers of intention. Two factors stood out: what important people around a learner think, and the reputation of the tuition provider. Both showed positive and significant relationships with intention to enrol.\n\nWorking on this paper with Le Bich Tran and Pham Ngoc Duong taught me a lot about turning a practical business question into a clean research model, and about reporting results honestly when effects are small.\n\n(Demo content — replace with your own story of about 300 words.)"},
+    {"date": "2026-09", "type": "Volunteer", "title": "Joining the Board of Mentors at Trà Đá Mentor", "image": "news/demo-2.png", "text": "After a year of weekly one-to-one sessions as a mentor, I joined the Board of Mentors at Trà Đá Mentor, a non-profit mentoring community.\n\nMy new role is to review mentors’ plans and give feedback so that both mentors and mentees can grow.\n\n(Demo content.)"},
+    {"date": "2026-02", "type": "Research", "title": "Starting as a research assistant at USF Muma College of Business", "image": "news/demo-3.jpg", "text": "I started working remotely as a research assistant to Asst. Prof. Nguyen (Nick) Nguyen on the AI Digital Twin project.\n\n(Demo content.)"},
+    {"date": "2025-03", "type": "Academic", "title": "Beginning my Master of Marketing at UFM", "image": "news/demo-4.png", "text": "I began the Master of Marketing programme at the University of Finance – Marketing.\n\n(Demo content.)"},
+    // { date: "2026-12", type: "Academic", title: "Defended my Master’s thesis", image: "news/2026-12-thesis.jpg",
+    //   text: "Đoạn 1…\n\nĐoạn 2…" },
   ],
   newsShown: 6,   // số tin hiển thị trước khi bấm “Show all”
 
   /* Tên của bạn trong danh sách tác giả sẽ được in đậm tự động */
   selfNames: ["Pham Lam Duy Anh", "Pham Lam, D. A."],
 
+  /* PUBLICATIONS — 4 nhóm: conference · underReview · inPreparation · thesis
+     • Gắn PDF: upload file vào thư mục papers/ rồi điền pdfEn (bản tiếng Anh) và/hoặc pdfVi (bản tiếng Việt).
+       Ô nào để "" thì nút đó tự ẩn; cả hai trống thì hiện “PDF coming soon”.
+     • Thêm bài mới: copy mẫu dưới đây, dán vào đầu nhóm phù hợp rồi sửa:
+
+     { authors: "Pham Lam, D. A. & Nguyen, V. A.",   // tên bạn (khớp selfNames) sẽ tự in đậm
+       year: "2027",
+       title: "Tên bài báo",
+       venue: "Tên tạp chí / hội thảo, tập(số), trang",
+       link: "",                                    // (tuỳ chọn) link trang bài báo
+       pdfEn: "papers/2027-ten-bai-en.pdf",         // nút “PDF English”   ("" = ẩn)
+       pdfVi: "papers/2027-ten-bai-vi.pdf",         // nút “PDF Vietnamese” ("" = ẩn)
+       doi: "",                                     // (tuỳ chọn) vd "10.1234/abcd.2027.001"
+       abstract: "Tóm tắt…" },
+  */
   publications: {
     conference: [
       { authors: "Le Bich Tran, Pham Ngoc Duong, Pham Lam Duy Anh", year: "2026, November",
         title: "Subjective norm, tuition provider reputation, and intention to pursue the ICAEW qualification at a tuition provider: Evidence from Vietnam",
         venue: "The 4th International Conference on Accounting, Economics, Finance and Management (ICAEFM 2026)",
         link: "",
+        pdfEn: "papers/demo-paper.pdf",      // DEMO — thay bằng file thật
+        pdfVi: "papers/demo-paper-vi.pdf",   // DEMO — thay bằng file thật
         abstract: "This paper examines the relationships between subjective norm, tuition provider reputation and learners’ intention to pursue the ICAEW qualification in Vietnam, using T.A.D Learning as the empirical context. The analysis uses 268 valid survey responses collected in May 2026 and the original six-factor PLS-SEM model, with all six paths reported. Subjective norm (SN) and tuition provider reputation (REP) recorded the two largest effect sizes among the six explanatory constructs, although the effects were small and not statistically different from those of career opportunity and educational support. Bootstrapping with 5,000 resamples shows positive and statistically significant relationships between SN and intention (β = 0.316, p < 0.001) and between REP and intention (β = 0.321, p < 0.001)." },
       { authors: "Nguyen Thi Thanh Hien, Tran Le Phuoc Ha, Nguyen Dinh Manh, Pham Lam Duy Anh, Dang Nguyen Xuan Tien", year: "2026, March",
         title: "AI-enabled recruitment as the branding touchpoint: How psychological contract fulfillment and employer brand equity shape employer attractiveness and intention to apply in Vietnam and Taiwan",
         venue: "International Conference on the Development and Application of Big Data and Enterprise Resource Management, 2026",
         link: "",
+        pdfEn: "",
+        pdfVi: "",
         abstract: "This study examines how five AI-enabled recruitment (AER) attributes — personalization, transparency, accuracy, interactivity and intelligence — shape two core applicant states: AI adoption intention and psychological contract fulfillment. Drawing on the SOR framework and CBBE theory, we investigate their downstream effects on employer brand equity, employer attractiveness and intention to apply, while considering the moderating role of AI anxiety. 558 job-seeker surveys from Vietnam and Taiwan were analyzed using PLS-SEM. In both markets, AER significantly enhances AI adoption intention, which strengthens psychological contract fulfillment and employer brand equity. In Vietnam these effects operate mainly through indirect, brand-mediated pathways, whereas in Taiwan they translate more directly into employer attractiveness and application intentions. AI anxiety negatively moderates the AER–adoption relationship in Vietnam but not in Taiwan." },
       { authors: "Pham Lam, D. A. & Le, T. N.", year: "2025, December",
         title: "The role of digital transformation in promoting the circular economy at Vinamilk (2018–2024)",
         venue: "Proceedings of the National Conference on the Current State of Circular Economic Development in the Context of Digital Transformation in Vietnam (ISBN 978-632-00-2639-5)",
         link: "",
+        pdfEn: "",
+        pdfVi: "",
         abstract: "Analyzing Vinamilk’s Sustainability Reports from 2018 to 2024 with qualitative content analysis and case study methods, this study shows that although digital transformation (DT) accounts for only 7.6% of recorded circular economy (CE) initiatives on average, its role is strategic. Drawing on dynamic capabilities theory, it argues that DT is a foundation for managing and optimizing complex circular loops, offering a practical framework for understanding how DT becomes a strategic dynamic capability in implementing CE." }
     ],
     underReview: [
@@ -302,6 +465,8 @@ const PROFILE = {
         title: "From algorithms to human experience: A bibliometric analysis of AI-powered recommendation trends in digital marketing (2018–2025)",
         venue: "Journal of Finance – Marketing Research",
         link: "",
+        pdfEn: "",
+        pdfVi: "",
         abstract: "This study applies bibliometric analysis to 244 Scopus publications to map research on AI-driven recommendations in digital marketing from 2018 to 2025. It identifies four clusters: AI in transactional digital contexts and consumer behavior; personalization in digital marketing; chatbots and customer experience; and consumer behavior and purchase intention. Results show a clear shift from technology-centric to human-centric perspectives in 2024–2025 and point to a theoretical gap between personalization and digital marketing research." }
     ],
     inPreparation: [
@@ -309,7 +474,19 @@ const PROFILE = {
         title: "The impact of AI-powered recommendation on continuance intention to use e-wallet: Empirical evidence from Vietnam",
         venue: "Target: Journal of Asian Business and Economic Studies",
         link: "",
+        pdfEn: "",
+        pdfVi: "",
         abstract: "Set in the context of MoMo, Vietnam’s largest e-wallet, this study integrates the Stimulus-Organism-Response framework with the Expectation-Confirmation Model. Survey data from 313 MoMo users analyzed with PLS-SEM support 10 of 11 hypotheses: accuracy is the strongest stimulus for expectation confirmation, followed by personalization, interactivity and transparency; perceived usefulness affects continuance intention more strongly than satisfaction; and trust negatively moderates the usefulness–continuance relationship." }
+    ],
+    /* Luận văn bản tiếng Anh — chỉ hiện ở trang Publications */
+    thesis: [
+      { authors: "Pham Lam Duy Anh", year: "2026",
+        title: "Enhancing users’ continuance intention toward the MoMo e-wallet through AI-powered recommendations",
+        venue: "Master’s thesis (English translation), University of Finance – Marketing",
+        link: "",
+        pdfEn: "",
+        pdfVi: "",
+        abstract: "" }
     ]
   },
 
@@ -327,7 +504,7 @@ const PROFILE = {
   experience: [
     { org: "USF Muma College of Business", place: "Remote", when: "Feb 2026 – present",
       pos: "Research Assistant to Asst. Prof. Nguyen (Nick) Nguyen",
-      points: ["AI Digital Twin project with the Association of High-Quality Vietnamese Goods (digitwinaihub.com)",
+      points: ["AI Digital Twin project with the Association of High-Quality Vietnamese Goods ([digitwinaihub.com](https://digitwinaihub.com))",
                "Coordinated research agencies; reviewed and pilot-tested survey questionnaires",
                "Data annotation; translated research insights into UX/UI requirements",
                "Built research communication materials for industry partners"] },
@@ -356,14 +533,6 @@ const PROFILE = {
       points: ["Developed life mentoring plans and ran weekly 1–2-hour coaching sessions to review mentee progress, assess assignments and unlock mentees’ potential"] }
   ],
 
-  /* REFERENCES — showReferenceEmails: false = ẩn email người giới thiệu (khuyên dùng khi đăng công khai) */
-  showReferenceEmails: false,
-  references: [
-    { name: "Asst. Prof. Nguyen (Nick) Nguyen", org: "USF Muma College of Business", email: "", relation: "Research Advisor" },
-    { name: "Dr. Hoang Thu Thao", org: "University of Finance – Marketing", email: "", relation: "Master’s Thesis Advisor" },
-    { name: "Assoc. Prof. Dr. Tran Nguyen Khanh Hai", org: "University of Finance – Marketing", email: "", relation: "Master’s Thesis Advisor" },
-    { name: "Assoc. Prof. Dr. Tran Thi Thanh Nga", org: "University of Finance – Marketing", email: "", relation: "Bachelor’s Class Advisor" }
-  ],
 
   /* LOGO — key = tên tổ chức (org) y hệt như trong education/experience/activities.
      src: link ảnh hoặc data URI (PNG/SVG nền trong). Để trống src thì hiện ô chữ viết tắt (mono). */
@@ -377,7 +546,7 @@ const PROFILE = {
   },
 
   /* Hình doodle trang trí ở các mục còn trống. Đổi danh sách để thêm/bớt; [] = tắt */
-  doodleSections: ["interests", "skills", "activities", "references", "news"],
+  doodleSections: ["interests", "skills", "activities", "news"],
 
   updated: "November 2026"
 };
@@ -536,6 +705,9 @@ ${star(210,170,9)}${star(450,190,8,"w")}${spark(28,190,6)}${spark(580,28,7)}`
 document.addEventListener("DOMContentLoaded", () => {
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+/* [chữ](link) trong nội dung → link mở trong khung xem ngay trên trang */
+const rich = s => esc(s).replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, t, u) =>
+  /^(https?:|\/|\.|[\w-]+\/)/i.test(u) ? `<a href="${u}" target="_blank" rel="noopener" data-popup>${t}</a>` : m);
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const P = PROFILE;
 if(!P.photo) P.photo = window.PHOTO_EMBED || "";
@@ -559,9 +731,22 @@ const contactRows = [
   ["CV", c.cv && `<a href="${esc(c.cv)}" target="_blank" rel="noopener">Download PDF</a>`]
 ].filter(r => r[1]);
 
-const sections = [["education","Education"],["interests","Research interests"],["experience","Experience"],["publications","Publications"],["skills","Skills"],["activities","Activities"],["references","References"],["news","News"]];
+const sections = [["education","Education"],["interests","Research interests"],["experience","Experience"],["cv-publications","Publications"],["skills","Skills"],["activities","Activities"]];
+const PAGES = [["about","About"],["publications","Publications"],["news","News"]];
+/* Tiêu đề dải tối đầu trang Publications & News — sửa chữ ở đây */
+const HERO = {
+  publications: { title: "Publications", sub: "Conference papers, manuscripts and thesis — with abstracts and full PDFs",
+                  icon: `<svg viewBox="0 0 96 64" aria-hidden="true"><rect x="10" y="6" width="38" height="50" rx="3" fill="#FFFFFF" stroke="var(--accent)" stroke-width="2.5"/><rect x="34" y="12" width="38" height="50" rx="3" fill="var(--accent)" stroke="#FFFFFF" stroke-width="2.5"/><path d="M42 26h22M42 34h22M42 42h15" stroke="var(--side)" stroke-width="2.5" stroke-linecap="round"/></svg>` },
+  news:         { title: "News", sub: "Milestones from my academic and volunteer journey",
+                  icon: `<svg viewBox="0 0 96 64" aria-hidden="true"><path d="M14 8h52v46a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4Z" fill="#FFFFFF" stroke="var(--accent)" stroke-width="2.5"/><path d="M66 18h12v34a6 6 0 0 1-6 6h-6" fill="var(--accent)" stroke="#FFFFFF" stroke-width="2.5"/><rect x="22" y="16" width="36" height="9" rx="1.5" fill="var(--accent)"/><rect x="22" y="31" width="15" height="13" rx="1.5" fill="var(--side)"/><path d="M42 33h16M42 40h16M22 50h36" stroke="var(--side)" stroke-width="2.5" stroke-linecap="round"/></svg>` }
+};
+const hero = v => `<header class="page-hero"><div class="page-hero-in"><div><p class="hero-title" role="heading" aria-level="1">${HERO[v].title}</p><p class="hero-sub">${HERO[v].sub}</p></div><div class="hero-ico">${HERO[v].icon}</div></div></header>`;
 
 $("#sidebar").innerHTML = `
+  <div class="topbar"><div class="topbar-in">
+    <a class="brand" href="#about">${esc(P.siteTitle || P.name)}</a>
+    <nav class="toc pages" aria-label="Pages">${PAGES.map(([id,l]) => `<a href="#${id}" data-page="${id}">${l}</a>`).join("")}</nav>
+  </div></div>
   <div class="top-in">
     <div class="me">
       ${P.photo ? `<img class="portrait" src="${P.photo}" alt="Portrait of ${esc(P.name)}">` : ""}
@@ -573,7 +758,7 @@ $("#sidebar").innerHTML = `
       ${P.status ? `<div class="status">${esc(P.status)}</div>` : ""}
     </div>
     <ul class="contact">${contactRows.map(([k,v]) => `<li data-k="${k}"><span class="k">${k}</span>${v}</li>`).join("")}</ul>
-    <nav class="toc" aria-label="Sections">${sections.map(([id,l]) => `<a href="#${id}" data-id="${id}">${l}</a>`).join("")}</nav>
+    <nav class="subnav" aria-label="On this page">${sections.map(([id,l]) => `<a href="#${id}" data-id="${id}">${l}</a>`).join("")}</nav>
   </div>`;
 
 /* chiều cao khung đen → để cuộn/snap không bị khung che */
@@ -581,7 +766,7 @@ $("#sidebar").innerHTML = `
 const fitPhoto = () => {
   const root = document.documentElement, id = document.querySelector(".top .id");
   if (!id || matchMedia("(max-width:720px)").matches) { root.style.removeProperty("--ph"); return; }
-  const want = Math.round(Math.min(200, Math.max(120, id.offsetHeight)));
+  const want = Math.round(Math.min(240, Math.max(120, id.offsetHeight)));
   const cur = parseInt(root.style.getPropertyValue("--ph")) || 0;
   if (Math.abs(want - cur) > 2) root.style.setProperty("--ph", want + "px");
 };
@@ -590,7 +775,7 @@ addEventListener("resize", setHdr);
 setHdr(); new ResizeObserver(setHdr).observe($("#sidebar"));
 
 /* Main */
-$("#mnav").innerHTML = sections.map(([id,l]) => `<a href="#${id}" data-id="${id}">${l}</a>`).join("");
+$("#mnav").innerHTML = `<a class="brand" href="#about">${esc(P.siteTitle || P.name)}</a>` + PAGES.map(([id,l]) => `<a href="#${id}" data-page="${id}">${l}</a>`).join("");
 function logoBox(org){
   const L = (P.logos || {})[org] || {};
   const src = L.src || (window.LOGO_EMBED || {})[org] || "";
@@ -605,23 +790,36 @@ function entries(list){
       ${logoBox(e.org)}
       <div class="org">${esc(e.org)}${e.place ? `<span style="color:var(--muted);font-weight:400">, ${esc(e.place)}</span>` : ""}</div>
       <div class="when">${esc(e.when)}</div>
-      <div class="pos">${esc(e.pos)}</div>
-      ${e.points && e.points.length ? `<ul>${e.points.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
+      <div class="pos">${rich(e.pos)}</div>
+      ${e.points && e.points.length ? `<ul>${e.points.map(p => `<li>${rich(p)}</li>`).join("")}</ul>` : ""}
     </div>`).join("");
 }
+const pubKey = p => "pub-" + (p.year + "-" + p.title).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,70);
+const pdfBtn = (url, lang, p) => url ? `<a class="btn pdf" href="${esc(url)}" target="_blank" rel="noopener" data-pdf data-title="${esc(p.title)} (${lang})">PDF ${lang}</a>` : "";
+/* Trang Publications: đầy đủ — tiêu đề, tác giả, nơi đăng, nút PDF English / Vietnamese, DOI, abstract */
 function pubList(list){
-  return `<ol class="pubs">${list.map(p => `
-    <li class="pub">
-      <p class="pub-title">${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.title)}</a>` : esc(p.title)}</p>
+  return `<ol class="pubs">${list.map(p => {
+    const en = p.pdfEn || p.pdf || "", vi = p.pdfVi || "", main = en || vi || p.link;
+    return `<li class="pub" id="${pubKey(p)}">
+      <p class="pub-title">${main ? `<a href="${esc(main)}" target="_blank" rel="noopener"${(en || vi) ? ` data-pdf data-title="${esc(p.title)}"` : ""}>${esc(p.title)}</a>` : esc(p.title)}</p>
       <div class="pub-authors">${boldSelf(p.authors)} (${esc(p.year)})</div>
       <div class="pub-venue">${esc(p.venue)}</div>
-      ${p.abstract ? `<details><summary>Abstract</summary><p>${esc(p.abstract)}</p></details>` : ""}
-    </li>`).join("")}</ol>`;
+      <div class="pub-actions">${pdfBtn(en, "English", p)}${pdfBtn(vi, "Vietnamese", p)}${(!en && !vi) ? `<span class="soon">PDF coming soon</span>` : ""}${p.doi ? `<a class="btn ghost" href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">DOI</a>` : ""}</div>
+      ${p.abstract ? `<details><summary>Abstract</summary><p>${rich(p.abstract)}</p></details>` : ""}
+    </li>`; }).join("")}</ol>`;
 }
-const pubGroups = [["Conference", P.publications.conference],["Manuscripts under review", P.publications.underReview],["Manuscripts in preparation", P.publications.inPreparation]]
-  .filter(g => g[1] && g[1].length);
+/* Trang About: chỉ trích dẫn; muốn xem abstract / PDF thì bấm “Abstract & PDF →” sang trang Publications */
+function citeList(list){
+  return `<ol class="cites">${list.map(p => `
+    <li><span class="cite">${boldSelf(p.authors)} (${esc(p.year)}). ${esc(p.title)}. <i>${esc(p.venue)}</i>.</span></li>`).join("")}</ol>`;
+}
+const G = P.publications;
+const pubGroups = all => [["Conference", G.conference],["Manuscripts under review", G.underReview],["Manuscripts in preparation", G.inPreparation], ...(all ? [["Master’s thesis", G.thesis]] : [])]
+  .filter(g => g[1] && g[1].length)
+  .map(([t,l]) => `<div class="pub-group"><h3>${t}</h3>${all ? pubList(l) : citeList(l)}</div>`).join("");
 
 $("#main").innerHTML = `
+<div class="view" data-view="about">
   <section id="education"><h2>Education</h2>${entries(P.education)}</section>
 
   <section id="interests">
@@ -631,42 +829,43 @@ $("#main").innerHTML = `
 
   <section id="experience"><h2>Experience</h2>${entries(P.experience)}</section>
 
-  <section id="publications">
-    <h2>Publications</h2>
-    ${pubGroups.map(([t,l]) => `<div class="pub-group"><h3>${t}</h3>${pubList(l)}</div>`).join("")}
-  </section>
+  <section id="cv-publications"><h2>Publications</h2>${pubGroups(false)}<a class="see-all" href="#publications">See all publications with abstracts &amp; PDFs →</a></section>
 
   <section id="skills">
     <h2>Skills</h2>
-    <dl class="skills">${P.skills.map(([k,v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
+    <dl class="skills">${P.skills.map(([k,v]) => `<dt>${esc(k)}</dt><dd>${rich(v)}</dd>`).join("")}</dl>
   </section>
 
   <section id="activities"><h2>Activities</h2>${entries(P.activities)}</section>
 
-  <section id="references">
-    <h2>References</h2>
-    <ul class="refs">${P.references.map(r => `
-      <li>
-        <div class="ref-name">${esc(r.name)}</div>
-        <div class="ref-meta">${esc(r.org)}</div>
-        <div class="ref-meta">${esc(r.relation)}${P.showReferenceEmails && r.email ? ` · <a href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : ""}</div>
-      </li>`).join("")}</ul>
-    ${P.showReferenceEmails ? "" : `<p class="ref-note">Contact details available upon request.</p>`}
-  </section>
+</div>
 
+<div class="view" data-view="publications" hidden>
+  ${hero("publications")}
+  <section id="publications">
+    <p class="intro">Click a title or a PDF button to read the full paper; “Abstract” opens the summary.</p>
+    ${pubGroups(true)}
+  </section>
+</div>
+
+<div class="view" data-view="news" hidden>
+  ${hero("news")}
   <section id="news">
-    <h2>News</h2>
     <div class="filters" role="group" aria-label="Filter news"></div>
-    <div id="news-list"></div>
-    <button class="more" id="news-more" type="button"></button>
-  </section>`;
+    <div class="timeline" id="news-list"></div>
+  </section>
+</div>`;
 
 $("#footer").textContent = `© ${new Date().getFullYear()} ${P.name} · Last updated ${P.updated}`;
 
-/* News: filter + group by year */
-const news = [...P.news].sort((a,b) => (b.date.length===4?b.date+"-00":b.date).localeCompare(a.date.length===4?a.date+"-00":a.date));
-const types = ["All", ...new Set(news.map(n => n.type))];
-let filter = "All", showAll = false;
+/* ---------- News ---------- */
+const sortKey = d => d.length === 4 ? d + "-00" : d;
+const news = [...P.news].sort((a,b) => sortKey(b.date).localeCompare(sortKey(a.date)));
+const dateLabel = d => d.length > 4 ? `${MONTHS[+d.slice(5,7)-1]} ${d.slice(0,4)}` : d;
+const slugOf = n => n.slug || (n.date + "-" + n.title).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const excerpt = (t="", n=150) => { const s = t.replace(/\s+/g," ").trim(); return s.length <= n ? s : s.slice(0, s.lastIndexOf(" ", n)) + "…"; };
+const types = ["All", ...new Set(news.map(n => n.type).filter(Boolean))];
+let filter = "All";
 
 $(".filters").innerHTML = types.map(t => `<button type="button" aria-pressed="${t==="All"}" data-t="${esc(t)}">${esc(t)}</button>`).join("");
 $(".filters").addEventListener("click", e => {
@@ -675,45 +874,131 @@ $(".filters").addEventListener("click", e => {
   document.querySelectorAll(".filters button").forEach(x => x.setAttribute("aria-pressed", x===b));
   renderNews();
 });
-$("#news-more").addEventListener("click", () => { showAll = !showAll; renderNews(); });
 
 function renderNews(){
-  $(".filters").style.display = news.length ? "" : "none";
+  $(".filters").style.display = types.length > 2 ? "" : "none";
   const list = news.filter(n => filter==="All" || n.type===filter);
-  const shown = showAll ? list : list.slice(0, P.newsShown);
   const byYear = {};
-  shown.forEach(n => (byYear[n.date.slice(0,4)] ||= []).push(n));
+  list.forEach(n => (byYear[n.date.slice(0,4)] ||= []).push(n));
   $("#news-list").innerHTML = Object.keys(byYear).sort().reverse().map(y => `
-    <div class="year">
-      <div class="year-label">${y}</div>
-      <ol class="items">${byYear[y].map(n => {
-        const m = n.date.length > 4 ? MONTHS[+n.date.slice(5,7)-1] : "";
-        return `<li class="item">
-          <div class="meta">${m ? `<span>${m}</span>` : ""}<span class="tag">${esc(n.type)}</span></div>
-          <h3>${esc(n.title)}</h3>
-          ${n.text ? `<p>${esc(n.text)}</p>` : ""}
+    <div class="tl-year">
+      <div class="tl-y">${y}</div>
+      <ol class="tl-items">${byYear[y].map(n => {
+        const words = (n.text || "").trim().split(/\s+/).filter(Boolean).length;
+        if (words > 300) console.warn(`News "${n.title}" có ${words} chữ (nên ≤ 300).`);
+        return `<li class="tl-item">
+          <div class="tl-date">${n.date.length > 4 ? MONTHS[+n.date.slice(5,7)-1] : ""}</div>
+          <article class="tl-card${n.image ? "" : " no-img"}">
+            ${n.image ? `<div class="tl-img"><img src="${esc(n.image)}" alt="${esc(n.alt || n.title)}" loading="lazy"></div>` : ""}
+            <div class="tl-body">
+              ${n.type ? `<span class="tag">${esc(n.type)}</span>` : ""}
+              <h3>${esc(n.title)}</h3>
+              <div class="tl-text clamp">${(n.text || "").split(/\n\s*\n/).map(p => `<p>${rich(p.trim())}</p>`).join("")}</div>
+              <button type="button" class="tl-more" hidden>Read more</button>
+            </div>
+          </article>
         </li>`; }).join("")}</ol>
-    </div>`).join("") || `<p style="color:var(--muted)">${news.length ? "No news in this category yet." : "Updates will be posted here soon."}</p>`;
-  const more = $("#news-more");
-  more.hidden = list.length <= P.newsShown;
-  more.textContent = showAll ? "Show fewer" : `Show all ${list.length} updates`;
+    </div>`).join("") || `<p class="empty">${news.length ? "No news in this category yet." : "Updates will be posted here soon."}</p>`;
+  setupMore();
+}
+/* "Read more" chỉ hiện khi đoạn văn dài hơn khung */
+function setupMore(){
+  document.querySelectorAll(".tl-card").forEach(card => {
+    const t = card.querySelector(".tl-text"), b = card.querySelector(".tl-more");
+    const over = t.scrollHeight > t.clientHeight + 4;
+    b.hidden = !over; t.classList.toggle("fade", over);
+    b.onclick = () => { const open = t.classList.toggle("clamp"); b.textContent = open ? "Read more" : "Show less"; };
+  });
 }
 renderNews();
 
-/* Highlight current section in sidebar */
-const links = document.querySelectorAll("nav.toc a, nav.mnav a");
-const obs = new IntersectionObserver(es => es.forEach(en => {
-  if(!en.isIntersecting) return;
-  links.forEach(a => a.classList.toggle("on", a.dataset.id === en.target.id));
-  const m = document.getElementById("mnav"), cur = m && m.querySelector("a.on");
-  if (m && cur && m.scrollWidth > m.clientWidth) m.scrollTo({ left: cur.offsetLeft - (m.clientWidth - cur.offsetWidth) / 2, behavior: "smooth" });
-}), { rootMargin: "-30% 0px -60% 0px" });
-document.querySelectorAll("main section").forEach(s => obs.observe(s));
+/* ---------- Doodles + headline badges ---------- */
 (P.doodleSections || []).forEach(id => {
   const s = document.getElementById(id);
   if (s && DOODLES[id]) s.insertAdjacentHTML("beforeend", `<div class="doodle" aria-hidden="true"><svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">${DOODLE_DEFS}${DOODLES[id]}</svg></div>`);
 });
-if(!location.hash) window.scrollTo(0,0);
+document.querySelectorAll("main h2").forEach(h2 => { h2.innerHTML = `<span>${h2.innerHTML}</span>`; });
+
+/* ---------- Highlight mục đang xem trong thanh phụ (trang About) ---------- */
+const subLinks = document.querySelectorAll("nav.subnav a");
+const obs = new IntersectionObserver(es => es.forEach(en => {
+  if(!en.isIntersecting) return;
+  subLinks.forEach(a => a.classList.toggle("on", a.dataset.id === en.target.id));
+}), { rootMargin: "-30% 0px -60% 0px" });
+document.querySelectorAll('[data-view="about"] > section').forEach(s => obs.observe(s));
+
+/* ---------- Điều hướng giữa các trang: #about (mặc định) · #publications · #news · #story-… ---------- */
+let currentView = "";
+function route(){
+  const hash = decodeURIComponent(location.hash.slice(1));
+  let view = "about", target = null;
+  if (hash === "publications" || hash === "news") view = hash;
+  else if (hash.startsWith("pub-")) { view = "publications"; target = document.getElementById(hash); }
+  else if (hash && hash !== "about") target = document.getElementById(hash);
+  document.querySelectorAll(".page-hero").forEach(x => { x.classList.remove("in"); void x.offsetWidth; x.classList.add("in"); });
+  document.querySelectorAll(".view").forEach(v => v.hidden = v.dataset.view !== view);
+  document.documentElement.classList.toggle("snap", view === "about");
+  document.documentElement.dataset.view = view;
+  const page = view;
+  document.querySelectorAll("[data-page]").forEach(a => a.classList.toggle("on", a.dataset.page === page));
+  $(".subnav").style.display = view === "about" ? "" : "none";
+  if (view === "news") requestAnimationFrame(setupMore);
+  document.title = view === "about" ? `${P.name} — Academic Profile` : `${PAGES.find(p => p[0] === page)[1]} — ${P.name}`;
+  setHdr();
+  requestAnimationFrame(() => {
+    if (target) { target.scrollIntoView({ block: target.classList.contains("pub") ? "center" : "start" }); if (target.classList.contains("pub")) { target.classList.remove("flash"); void target.offsetWidth; target.classList.add("flash"); } }
+    else if (view !== currentView || PAGES.some(pg => pg[0] === hash)) window.scrollTo(0,0);
+    currentView = view;
+  });
+}
+addEventListener("hashchange", route);
+route();
+
+/* ---------- Trình xem PDF (máy tính: mở khung xem ngay trên trang; điện thoại: mở tab mới) ---------- */
+document.body.insertAdjacentHTML("beforeend", `
+  <div class="pdfv" id="pdfv" hidden role="dialog" aria-modal="true" aria-label="PDF viewer">
+    <div class="pdfv-box">
+      <div class="pdfv-bar">
+        <span class="pdfv-title" id="pdfv-title"></span>
+        <a class="btn ghost-light" id="pdfv-open" target="_blank" rel="noopener">Open in new tab</a>
+        <a class="btn" id="pdfv-dl" download>Download</a>
+        <button type="button" class="pdfv-x" id="pdfv-x" aria-label="Close">✕</button>
+      </div>
+      <iframe id="pdfv-frame" title="PDF document"></iframe>
+    </div>
+  </div>`);
+const pdfv = $("#pdfv");
+const closePdf = () => { pdfv.hidden = true; $("#pdfv-frame").src = "about:blank"; document.documentElement.style.overflow = ""; };
+/* Trang không cho nhúng (LinkedIn, Google…) sẽ mở tab mới thay vì khung xem */
+const NO_EMBED = /(^|\.)(linkedin\.com|facebook\.com|instagram\.com|x\.com|twitter\.com|google\.com|orcid\.org|researchgate\.net|scopus\.com|sciencedirect\.com|springer\.com|wiley\.com|tandfonline\.com|emerald\.com)$/i;
+function embedUrl(href){
+  try {
+    const u = new URL(href, location.href), host = u.hostname.replace(/^www\./, "");
+    if (host === "youtube.com" && u.searchParams.get("v")) return "https://www.youtube.com/embed/" + u.searchParams.get("v");
+    if (host === "youtu.be") return "https://www.youtube.com/embed" + u.pathname;
+    if (host === "drive.google.com" || host === "docs.google.com") return u.href.replace(/\/(view|edit)([?#].*)?$/, "/preview");
+    if (NO_EMBED.test(host)) return null;
+    return u.href;
+  } catch { return null; }
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[data-pdf], a[data-popup]");
+  if (!a || matchMedia("(max-width:720px)").matches) return;
+  const href = a.getAttribute("href"), isPdf = a.hasAttribute("data-pdf") || /\.pdf([?#]|$)/i.test(href);
+  if (isPdf && navigator.pdfViewerEnabled === false) return;
+  const src = isPdf ? href + "#view=FitH" : embedUrl(href);
+  if (!src) return;
+  e.preventDefault();
+  $("#pdfv-title").textContent = a.dataset.title || a.textContent.trim() || href;
+  $("#pdfv-open").href = href; $("#pdfv-dl").href = href;
+  $("#pdfv-dl").style.display = isPdf ? "" : "none";
+  $("#pdfv-frame").style.background = isPdf ? "" : "#FFFFFF";
+  $("#pdfv-frame").src = src;
+  pdfv.hidden = false; document.documentElement.style.overflow = "hidden";
+});
+$("#pdfv-x").addEventListener("click", closePdf);
+pdfv.addEventListener("click", e => { if (e.target === pdfv) closePdf(); });
+addEventListener("keydown", e => { if (e.key === "Escape" && !pdfv.hidden) closePdf(); });
 });
 </script>
 <!-- Logo nhúng sẵn (base64) — muốn thay: điền src trong PROFILE.logos -->
