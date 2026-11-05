@@ -112,6 +112,8 @@ html:not([data-view="about"]) .top{border-bottom:0;box-shadow:none}
 .cites{list-style:none;margin:0;padding:0}
 .cites li{display:flex;justify-content:space-between;align-items:baseline;gap:8px 24px;padding:14px 0;border-top:1px solid #D2DCD7;font-size:.95rem;line-height:1.6}
 .cites li:first-child{border-top:0;padding-top:4px}
+.cites li{position:relative}
+.cites li + li::before{content:"";position:absolute;left:0;top:-2px;width:44px;height:3px;background:var(--accent)}
 .cite strong{font-weight:700;color:var(--accent-ink)}
 .cite-more{flex:none;white-space:nowrap;font-family:var(--head);font-size:.8rem;font-weight:600;color:var(--accent-ink)}
 .see-all{align-self:center;display:inline-block;margin-top:28px;font-family:var(--head);font-weight:600;font-size:.92rem;padding:11px 24px;border-radius:6px;background:var(--accent-ink);color:#FFFFFF}
@@ -230,7 +232,7 @@ h2::after{content:"";flex:1;height:2px;background:var(--side);margin-left:0}
 .pub summary::-webkit-details-marker{display:none}
 .pub summary::before{content:"+ "}
 .pub details[open] summary::before{content:"− "}
-.pub details p{font-size:.94rem;color:var(--muted);max-width:72ch;margin:10px 0 0;padding:14px 16px;background:var(--surface);border-left:3px solid var(--accent);line-height:1.65}
+.pub details p{font-size:.94rem;color:var(--muted);max-width:none;text-align:justify;hyphens:none;margin:10px 0 0;padding:14px 16px;background:var(--surface);border-left:3px solid var(--accent);line-height:1.65}
 
 /* Education / Experience / Activities */
 .entry{position:relative;display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:2px 16px;padding:26px 0;border-top:1px solid #D2DCD7}
@@ -374,6 +376,18 @@ html:not([data-view="about"]) #intro{display:none}
   .prof .bio{font-size:.98rem;text-align:left}
 }
 @media print{ .prof .card{break-inside:avoid} }
+
+/* Nút PDF chưa có file + popup "PDF coming soon" */
+button.btn{border:0;cursor:pointer;line-height:inherit}
+.btn.pdf.is-soon{background:transparent;color:var(--side);outline:1.5px dashed var(--side);outline-offset:-1.5px}
+.btn.pdf.is-soon:hover{background:var(--surface);filter:none}
+.soonv{position:fixed;inset:0;z-index:110;background:rgba(13,23,20,.5);display:flex;align-items:center;justify-content:center;padding:20px}
+.soonv[hidden]{display:none}
+.soonv-box{width:min(400px,100%);background:var(--paper);border-radius:12px;border-top:4px solid var(--accent);padding:26px 26px 22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.soonv-ico svg{width:44px;height:44px;fill:none;stroke:var(--accent-ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.soonv-h{font-family:var(--head);font-weight:600;font-size:1.15rem;margin:8px 0 6px;color:var(--ink)}
+.soonv-t{font-size:.92rem;color:var(--muted);margin:0 0 18px;line-height:1.55}
+.soonv .btn{padding:6px 26px;font-size:.84rem}
 </style>
 </head>
 <body>
@@ -464,22 +478,22 @@ const PROFILE = {
         title: "Subjective norm, tuition provider reputation, and intention to pursue the ICAEW qualification at a tuition provider: Evidence from Vietnam",
         venue: "The 4th International Conference on Accounting, Economics, Finance and Management (ICAEFM 2026)",
         link: "",
-        pdfEn: "papers/demo-paper.pdf",      // DEMO — thay bằng file thật
-        pdfVi: "papers/demo-paper-vi.pdf",   // DEMO — thay bằng file thật
+        pdfEn: "papers/2026-icaefm-icaew-en.pdf",
+        pdfVi: "",
         abstract: "This paper examines the relationships between subjective norm, tuition provider reputation and learners’ intention to pursue the ICAEW qualification in Vietnam, using T.A.D Learning as the empirical context. The analysis uses 268 valid survey responses collected in May 2026 and the original six-factor PLS-SEM model, with all six paths reported. Subjective norm (SN) and tuition provider reputation (REP) recorded the two largest effect sizes among the six explanatory constructs, although the effects were small and not statistically different from those of career opportunity and educational support. Bootstrapping with 5,000 resamples shows positive and statistically significant relationships between SN and intention (β = 0.316, p < 0.001) and between REP and intention (β = 0.321, p < 0.001)." },
       { authors: "Nguyen Thi Thanh Hien, Tran Le Phuoc Ha, Nguyen Dinh Manh, Pham Lam Duy Anh, Dang Nguyen Xuan Tien", year: "2026, March",
         title: "AI-enabled recruitment as the branding touchpoint: How psychological contract fulfillment and employer brand equity shape employer attractiveness and intention to apply in Vietnam and Taiwan",
         venue: "International Conference on the Development and Application of Big Data and Enterprise Resource Management, 2026",
         link: "",
-        pdfEn: "",
+        pdfEn: "papers/2026-ai-enabled-recruitment-en.pdf",
         pdfVi: "",
         abstract: "This study examines how five AI-enabled recruitment (AER) attributes — personalization, transparency, accuracy, interactivity and intelligence — shape two core applicant states: AI adoption intention and psychological contract fulfillment. Drawing on the SOR framework and CBBE theory, we investigate their downstream effects on employer brand equity, employer attractiveness and intention to apply, while considering the moderating role of AI anxiety. 558 job-seeker surveys from Vietnam and Taiwan were analyzed using PLS-SEM. In both markets, AER significantly enhances AI adoption intention, which strengthens psychological contract fulfillment and employer brand equity. In Vietnam these effects operate mainly through indirect, brand-mediated pathways, whereas in Taiwan they translate more directly into employer attractiveness and application intentions. AI anxiety negatively moderates the AER–adoption relationship in Vietnam but not in Taiwan." },
       { authors: "Pham Lam, D. A. & Le, T. N.", year: "2025, December",
         title: "The role of digital transformation in promoting the circular economy at Vinamilk (2018–2024)",
         venue: "Proceedings of the National Conference on the Current State of Circular Economic Development in the Context of Digital Transformation in Vietnam (ISBN 978-632-00-2639-5)",
         link: "",
-        pdfEn: "",
-        pdfVi: "",
+        pdfEn: "soon",
+        pdfVi: "papers/2025-vinamilk-circular-economy-vi.pdf",
         abstract: "Analyzing Vinamilk’s Sustainability Reports from 2018 to 2024 with qualitative content analysis and case study methods, this study shows that although digital transformation (DT) accounts for only 7.6% of recorded circular economy (CE) initiatives on average, its role is strategic. Drawing on dynamic capabilities theory, it argues that DT is a foundation for managing and optimizing complex circular loops, offering a practical framework for understanding how DT becomes a strategic dynamic capability in implementing CE." }
     ],
     underReview: [
@@ -504,11 +518,11 @@ const PROFILE = {
     thesis: [
       { authors: "Pham Lam Duy Anh", year: "2026",
         title: "Enhancing users’ continuance intention toward the MoMo e-wallet through AI-powered recommendations",
-        venue: "Master’s thesis (English translation), University of Finance – Marketing",
+        venue: "Master’s thesis, University of Finance – Marketing",
         link: "",
-        pdfEn: "",
-        pdfVi: "",
-        abstract: "" }
+        pdfEn: "soon",
+        pdfVi: "papers/2026-masters-thesis-momo-vi.pdf",
+        abstract: "Amid the rapid growth of Vietnam’s e-wallet market and MoMo’s repositioning as an AI-powered financial assistant in 2024, this thesis examines the role of AI-powered recommendation attributes in users’ continuance intention toward the MoMo e-wallet. It responds to a research gap: the lack of a systematic approach to AI attributes in the context of continuance behaviour in emerging markets. The study aims to determine the effects of four stimulus attributes (personalization, transparency, accuracy and interactivity) on expectation confirmation; to clarify how these effects are transmitted through perceived usefulness and satisfaction to continuance intention; and to test the moderating role of trust, in order to propose suitable AI applications for MoMo. Integrating the S-O-R framework with the Expectation-Confirmation Model (ECM), the study surveyed 313 MoMo users and analysed the data using PLS-SEM in SmartPLS. All nine direct-effect hypotheses were supported. Accuracy had the strongest effect on expectation confirmation, followed by personalization, interactivity and transparency. Expectation confirmation acted as the central mediator, carrying most of the effect of the AI attributes to perceived usefulness, satisfaction and continuance intention. Trust negatively moderated the relationship between perceived usefulness and continuance intention. The model showed good explanatory and predictive power and fit the empirical data. Building on these findings, the thesis proposes four groups of AI application solutions in an empirically validated order of priority, drawing on the experience of leading Asian payment platforms, together with a three-year implementation roadmap for 2027–2029, to help MoMo and similar fintech platforms improve the effectiveness of their AI investments and strengthen long-term user engagement." }
     ]
   },
 
@@ -830,13 +844,17 @@ function entries(list){
     </div>`).join("");
 }
 const pubKey = p => "pub-" + (p.year + "-" + p.title).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,70);
-const pdfBtn = (url, lang, p) => url ? `<a class="btn pdf" href="${esc(url)}" target="_blank" rel="noopener" data-pdf data-title="${esc(p.title)} (${lang})">PDF ${lang}</a>` : "";
+/* pdfEn / pdfVi: đường dẫn PDF · "" = ẩn nút · "soon" = có bản này nhưng chưa có PDF → bấm hiện popup "coming soon" */
+const isSoon = u => String(u || "").trim().toLowerCase() === "soon";
+const pdfBtn = (url, lang, p) => !url ? "" : isSoon(url)
+  ? `<button type="button" class="btn pdf is-soon" data-soon="${lang}" data-title="${esc(p.title)}">PDF ${lang}</button>`
+  : `<a class="btn pdf" href="${esc(url)}" target="_blank" rel="noopener" data-pdf data-title="${esc(p.title)} (${lang})">PDF ${lang}</a>`;
 /* Trang Publications: đầy đủ — tiêu đề, tác giả, nơi đăng, nút PDF English / Vietnamese, DOI, abstract */
 function pubList(list){
   return `<ol class="pubs">${list.map(p => {
-    const en = p.pdfEn || p.pdf || "", vi = p.pdfVi || "", main = en || vi || p.link;
+    const en = p.pdfEn || p.pdf || "", vi = p.pdfVi || "", fileEn = isSoon(en) ? "" : en, fileVi = isSoon(vi) ? "" : vi, main = fileEn || fileVi || p.link;
     return `<li class="pub" id="${pubKey(p)}">
-      <p class="pub-title">${main ? `<a href="${esc(main)}" target="_blank" rel="noopener"${(en || vi) ? ` data-pdf data-title="${esc(p.title)}"` : ""}>${esc(p.title)}</a>` : esc(p.title)}</p>
+      <p class="pub-title">${main ? `<a href="${esc(main)}" target="_blank" rel="noopener"${(fileEn || fileVi) ? ` data-pdf data-title="${esc(p.title)}"` : ""}>${esc(p.title)}</a>` : esc(p.title)}</p>
       <div class="pub-authors">${boldSelf(p.authors)} (${esc(p.year)})</div>
       <div class="pub-venue">${esc(p.venue)}</div>
       <div class="pub-actions">${pdfBtn(en, "English", p)}${pdfBtn(vi, "Vietnamese", p)}${(!en && !vi) ? `<span class="soon">PDF coming soon</span>` : ""}${p.doi ? `<a class="btn ghost" href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">DOI</a>` : ""}</div>
@@ -1034,6 +1052,28 @@ document.addEventListener("click", e => {
   pdfv.hidden = false; document.documentElement.style.overflow = "hidden";
 });
 $("#pdfv-x").addEventListener("click", closePdf);
+/* Popup "PDF coming soon" */
+document.body.insertAdjacentHTML("beforeend", `
+  <div class="soonv" id="soonv" hidden role="dialog" aria-modal="true" aria-labelledby="soonv-h">
+    <div class="soonv-box">
+      <span class="soonv-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><circle cx="12.5" cy="14.5" r="3.5"/><path d="M12.5 13v1.6l1.1.8"/></svg></span>
+      <p class="soonv-h" id="soonv-h">PDF coming soon</p>
+      <p class="soonv-t" id="soonv-t"></p>
+      <button type="button" class="btn" id="soonv-x">OK</button>
+    </div>
+  </div>`);
+const soonv = $("#soonv"); let soonFrom = null;
+const closeSoon = () => { soonv.hidden = true; if (soonFrom) soonFrom.focus(); };
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-soon]");
+  if (!b) return;
+  soonFrom = b;
+  $("#soonv-t").textContent = `The ${b.dataset.soon} version of “${b.dataset.title}” is being prepared and will be available here shortly.`;
+  soonv.hidden = false; $("#soonv-x").focus();
+});
+$("#soonv-x").addEventListener("click", closeSoon);
+soonv.addEventListener("click", e => { if (e.target === soonv) closeSoon(); });
+addEventListener("keydown", e => { if (e.key === "Escape" && !soonv.hidden) closeSoon(); });
 pdfv.addEventListener("click", e => { if (e.target === pdfv) closePdf(); });
 addEventListener("keydown", e => { if (e.key === "Escape" && !pdfv.hidden) closePdf(); });
 });
