@@ -415,16 +415,11 @@ button.btn{border:0;cursor:pointer;line-height:inherit}
 .page-hero{margin:0}
 main .page-hero{margin:0 -32px}
 @media (max-width:720px){ main .page-hero{margin:0 calc(-20px - 4vw)} }
-html:not([data-view="about"]) #abouthero{display:none}
 #subnav{position:sticky;top:calc(var(--tb,50px) + env(safe-area-inset-top,0px));z-index:21;margin:0;padding:8px 24px;
   background:var(--surface);clip-path:none;border-bottom:4px solid var(--accent);box-shadow:0 6px 20px rgba(20,24,32,.06)}
-#abouthero .page-hero{border-bottom:0}
-@media (min-width:721px){ html.snap #abouthero{scroll-snap-align:start} }
-@media (max-width:720px){ #abouthero .page-hero{border-bottom:4px solid var(--accent)} }
 
 /* ---------- Dải tiêu đề About / Publications / News đứng yên dưới thanh menu (máy tính, tablet) ---------- */
 @media (min-width:721px){
-  #abouthero{position:sticky;top:calc(var(--tb,50px) + env(safe-area-inset-top,0px));z-index:21}
   #subnav{top:calc(var(--tb,50px) + var(--ah,0px) + env(safe-area-inset-top,0px));z-index:20}
   main .page-hero{position:sticky;top:calc(var(--tb,50px) + env(safe-area-inset-top,0px));z-index:15;box-shadow:0 6px 16px rgba(20,24,32,.10)}
 }
@@ -439,7 +434,6 @@ html:not([data-view="about"]) #abouthero{display:none}
 <div class="wrap">
   <nav class="mnav" id="mnav" aria-label="Pages"></nav>
   <header class="top" id="sidebar"></header>
-  <div class="about-hero" id="abouthero"></div>
   <nav class="subnav" id="subnav" aria-label="On this page"></nav>
   <section class="prof" id="intro" aria-label="Profile"></section>
   <main id="main"></main>
@@ -820,7 +814,7 @@ const contactRows = [
   ["CV", c.cv && `<a href="${esc(c.cv)}" target="_blank" rel="noopener">Download PDF</a>`]
 ].filter(r => r[1]);
 
-const sections = [["education","Education"],["interests","Research interests"],["experience","Experience"],["cv-publications","Publications"],["skills","Skills"],["activities","Activities"]];
+const sections = [["intro","Summary"],["education","Education"],["interests","Research interests"],["experience","Experience"],["cv-publications","Publications"],["skills","Skills"],["activities","Activities"]];
 const PAGES = [["about","About"],["publications","Publications"],["news","News"]];
 /* Tiêu đề dải tối đầu trang Publications & News — sửa chữ ở đây */
 const HERO = {
@@ -838,7 +832,6 @@ $("#sidebar").innerHTML = `
     <a class="brand" href="#about">${esc(P.siteTitle || P.name)}</a>
     <nav class="toc pages" aria-label="Pages">${PAGES.map(([id,l]) => `<a href="#${id}" data-page="${id}">${l}</a>`).join("")}</nav>
   </div></div>`;
-$("#abouthero").innerHTML = hero("about");
 $("#subnav").innerHTML = sections.map(([id,l]) => `<a href="#${id}" data-id="${id}">${l}</a>`).join("");
 
 /* Khối giới thiệu (trang About): cột trái ảnh + liên hệ, cột phải tên + giới thiệu */
@@ -879,7 +872,7 @@ const setHdr = () => {
   fitPhoto();
   const root = document.documentElement, tb = $("#sidebar").offsetHeight;
   const desk = !matchMedia("(max-width:720px)").matches, v = root.dataset.view;
-  const ah = v === "about" ? $("#abouthero").offsetHeight : 0;
+  const ah = 0;
   const sub = v === "about" ? $("#subnav").offsetHeight : 0;
   const vh = v && v !== "about" ? ($(`main .view[data-view="${v}"] .page-hero`) || {}).offsetHeight || 0 : 0;
   root.style.setProperty("--tb", tb + "px");
@@ -887,7 +880,7 @@ const setHdr = () => {
   root.style.setProperty("--hdr", (tb + (desk ? ah + sub + vh : sub)) + "px");
 };
 addEventListener("resize", setHdr); addEventListener("load", setHdr); document.fonts && document.fonts.ready.then(setHdr);
-setHdr(); { const ro = new ResizeObserver(setHdr); ro.observe($("#sidebar")); ro.observe($("#subnav")); ro.observe($("#abouthero")); document.querySelectorAll("main .page-hero").forEach(h => ro.observe(h)); }
+setHdr(); { const ro = new ResizeObserver(setHdr); ro.observe($("#sidebar")); ro.observe($("#subnav")); document.querySelectorAll("main .page-hero").forEach(h => ro.observe(h)); }
 
 /* Main */
 $("#mnav").innerHTML = `<a class="brand" href="#about">${esc(P.siteTitle || P.name)}</a>` + PAGES.map(([id,l]) => `<a href="#${id}" data-page="${id}">${l}</a>`).join("");
@@ -1043,11 +1036,30 @@ document.querySelectorAll("main h2").forEach(h2 => { h2.innerHTML = `<span>${h2.
 
 /* ---------- Highlight mục đang xem trong thanh phụ (trang About) ---------- */
 const subLinks = document.querySelectorAll("nav.subnav a");
-const obs = new IntersectionObserver(es => es.forEach(en => {
-  if(!en.isIntersecting) return;
-  subLinks.forEach(a => a.classList.toggle("on", a.dataset.id === en.target.id));
-}), { rootMargin: "-30% 0px -60% 0px" });
-document.querySelectorAll('[data-view="about"] > section').forEach(s => obs.observe(s));
+/* Mục đang xem = mục cuối cùng có đầu mục đã vượt qua vạch ngay dưới thanh dính.
+   Cuộn tới cuối trang thì chọn mục cuối (Activities) dù nó ngắn. */
+const spyList = () => [$("#intro"), ...document.querySelectorAll('[data-view="about"] > section')].filter(Boolean);
+let spyLock = 0;
+function spy(){
+  if (document.documentElement.dataset.view !== "about" || Date.now() < spyLock) return;
+  const hdr = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--hdr")) || 0;
+  const line = hdr + Math.min(140, innerHeight * 0.18);
+  const list = spyList();
+  let cur = list[0];
+  list.forEach(sec => { if (sec.getBoundingClientRect().top <= line) cur = sec; });
+  if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = list[list.length - 1];
+  subLinks.forEach(a => a.classList.toggle("on", a.dataset.id === cur.id));
+}
+let spyTick = false;
+addEventListener("scroll", () => { if (!spyTick) { spyTick = true; requestAnimationFrame(() => { spyTick = false; spy(); }); } }, { passive: true });
+addEventListener("resize", spy);
+/* Bấm vào mục: sáng ngay mục đó, chờ cuộn xong mới cho dò lại */
+subLinks.forEach(a => a.addEventListener("click", () => {
+  subLinks.forEach(x => x.classList.toggle("on", x === a));
+  spyLock = Date.now() + 900;
+  setTimeout(spy, 950);
+}));
+spy();
 
 /* ---------- Điều hướng giữa các trang: #about (mặc định) · #publications · #news · #story-… ---------- */
 let currentView = "";
@@ -1067,6 +1079,7 @@ function route(){
   if (view === "news") requestAnimationFrame(setupMore);
   document.title = `${P.name}’s Academic Page`;   // tên tab giống nhau ở cả 3 trang
   setHdr();
+  if (view === "about") { spy(); setTimeout(spy, 120); }
   requestAnimationFrame(() => {
     if (target) { target.scrollIntoView({ block: target.classList.contains("pub") ? "center" : "start" }); if (target.classList.contains("pub")) { target.classList.remove("flash"); void target.offsetWidth; target.classList.add("flash"); } }
     else if (view !== currentView || PAGES.some(pg => pg[0] === hash)) { window.scrollTo({top:0,left:0,behavior:"instant"}); setTimeout(() => { if (scrollY && !target) window.scrollTo({top:0,left:0,behavior:"instant"}); }, 60); }
