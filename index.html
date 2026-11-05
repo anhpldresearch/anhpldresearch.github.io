@@ -3,8 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Pham Lam Duy Anh — Marketing Researcher</title>
-<meta name="description" content="Pham Lam Duy Anh — quantitative marketing, digital marketing and AI in marketing. Publications, news and academic profile.">
+<title>Pham Lam Duy Anh’s Academic Page</title>
+<meta name="description" content="A small corner for my research, publications and academic journey.">
+<link rel="canonical" href="https://phamlamduyanh.com/">
+<!-- Icon trên tab trình duyệt -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#1F3A33">
+<!-- Thẻ xem trước khi chia sẻ link (Zalo, Messenger, LinkedIn, Facebook…) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pham Lam Duy Anh’s Page">
+<meta property="og:title" content="Pham Lam Duy Anh’s Page">
+<meta property="og:description" content="A small corner for my research, publications and academic journey.">
+<meta property="og:url" content="https://phamlamduyanh.com/">
+<meta property="og:image" content="https://phamlamduyanh.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pham Lam Duy Anh — Academic journey">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pham Lam Duy Anh’s Page">
+<meta name="twitter:description" content="A small corner for my research, publications and academic journey.">
+<meta name="twitter:image" content="https://phamlamduyanh.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
@@ -401,6 +421,17 @@ html:not([data-view="about"]) #abouthero{display:none}
 #abouthero .page-hero{border-bottom:0}
 @media (min-width:721px){ html.snap #abouthero{scroll-snap-align:start} }
 @media (max-width:720px){ #abouthero .page-hero{border-bottom:4px solid var(--accent)} }
+
+/* ---------- Dải tiêu đề About / Publications / News đứng yên dưới thanh menu (máy tính, tablet) ---------- */
+@media (min-width:721px){
+  #abouthero{position:sticky;top:calc(var(--tb,50px) + env(safe-area-inset-top,0px));z-index:21}
+  #subnav{top:calc(var(--tb,50px) + var(--ah,0px) + env(safe-area-inset-top,0px));z-index:20}
+  main .page-hero{position:sticky;top:calc(var(--tb,50px) + env(safe-area-inset-top,0px));z-index:15;box-shadow:0 6px 16px rgba(20,24,32,.10)}
+}
+/* ---------- Nhãn News nhiều màu ---------- */
+.tag.tag-news{background:var(--tag-bg);color:var(--tag-fg)}
+.filters button .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--tag-fg);margin-right:7px;vertical-align:1px}
+.filters button[aria-pressed="true"][style]{background:var(--tag-bg);border-color:var(--tag-fg);color:var(--tag-fg)}
 </style>
 </head>
 <body>
@@ -466,6 +497,14 @@ const PROFILE = {
     {"date":"2025-07","type":"Mentoring","title":"BECOMING A MENTOR AT TRA DA MENTOR","image":"news/5.jpg","imgPos":"50% 38%","alt":"Mentor profile introduction for Trà Đá Mentor Season 12+1","text":"I am truly grateful to Tra Da Mentor for inviting me to become part of this wonderful community as a mentor. This is my very first mentoring experience, and I am genuinely excited to embrace this new journey. I have always believed that sharing knowledge and experiences is one of the most meaningful ways to create value for others. With over 10 years of experience in marketing, I hope to bring practical insights, share lessons from my professional journey, and support young talents in discovering their potential and pursuing their own paths. At the same time, I believe mentoring is a two-way journey where I can learn, grow, and gain new perspectives from my mentees."},
   ],
   newsTypes: ["Mentoring", "Academic"],   // thứ tự nút lọc (sau “All”); nhãn khác vẫn tự thêm vào cuối
+  /* Màu nhãn tin: [nền, chữ]. Nhãn chưa có trong danh sách sẽ tự lấy một màu trong bảng dự phòng */
+  newsColors: {
+    Mentoring: ["#F6DCC5", "#8A4319"],   // cam đất
+    Academic:  ["#D3E6DA", "#24573F"],   // xanh xô thơm
+    Research:  ["#DCE3F2", "#2E4A7D"],   // xanh lam
+    Publication: ["#ECDDF0", "#6A3A7A"], // tím
+    Volunteer: ["#F7EBC4", "#7A5A0E"],   // vàng
+  },
   newsShown: 6,   // số tin hiển thị trước khi bấm “Show all”
 
   /* Tên của bạn trong danh sách tác giả sẽ được in đậm tự động */
@@ -839,12 +878,16 @@ const fitPhoto = () => {
 const setHdr = () => {
   fitPhoto();
   const root = document.documentElement, tb = $("#sidebar").offsetHeight;
-  const sub = root.dataset.view === "about" ? $("#subnav").offsetHeight : 0;
+  const desk = !matchMedia("(max-width:720px)").matches, v = root.dataset.view;
+  const ah = v === "about" ? $("#abouthero").offsetHeight : 0;
+  const sub = v === "about" ? $("#subnav").offsetHeight : 0;
+  const vh = v && v !== "about" ? ($(`main .view[data-view="${v}"] .page-hero`) || {}).offsetHeight || 0 : 0;
   root.style.setProperty("--tb", tb + "px");
-  root.style.setProperty("--hdr", (tb + sub) + "px");
+  root.style.setProperty("--ah", ah + "px");
+  root.style.setProperty("--hdr", (tb + (desk ? ah + sub + vh : sub)) + "px");
 };
-addEventListener("resize", setHdr);
-setHdr(); { const ro = new ResizeObserver(setHdr); ro.observe($("#sidebar")); ro.observe($("#subnav")); }
+addEventListener("resize", setHdr); addEventListener("load", setHdr); document.fonts && document.fonts.ready.then(setHdr);
+setHdr(); { const ro = new ResizeObserver(setHdr); ro.observe($("#sidebar")); ro.observe($("#subnav")); ro.observe($("#abouthero")); document.querySelectorAll("main .page-hero").forEach(h => ro.observe(h)); }
 
 /* Main */
 $("#mnav").innerHTML = `<a class="brand" href="#about">${esc(P.siteTitle || P.name)}</a>` + PAGES.map(([id,l]) => `<a href="#${id}" data-page="${id}">${l}</a>`).join("");
@@ -943,7 +986,10 @@ const excerpt = (t="", n=150) => { const s = t.replace(/\s+/g," ").trim(); retur
 const types = ["All", ...new Set([...(P.newsTypes || []), ...news.map(n => n.type).filter(Boolean)])];
 let filter = "All";
 
-$(".filters").innerHTML = types.map(t => `<button type="button" aria-pressed="${t==="All"}" data-t="${esc(t)}">${esc(t)}</button>`).join("");
+const SPARE = [["#DCE3F2","#2E4A7D"],["#ECDDF0","#6A3A7A"],["#F7EBC4","#7A5A0E"],["#F3D6D6","#8A2E2E"],["#D6EEF0","#1F5F66"]];
+const tagColor = t => (P.newsColors || {})[t] || SPARE[[...t].reduce((a,c) => a + c.charCodeAt(0), 0) % SPARE.length];
+const tagStyle = t => { const [bg, fg] = tagColor(t); return `--tag-bg:${bg};--tag-fg:${fg}`; };
+$(".filters").innerHTML = types.map(t => `<button type="button" aria-pressed="${t==="All"}" data-t="${esc(t)}"${t === "All" ? "" : ` style="${tagStyle(t)}"`}>${t === "All" ? "" : '<i class="dot" aria-hidden="true"></i>'}${esc(t)}</button>`).join("");
 $(".filters").addEventListener("click", e => {
   const b = e.target.closest("button"); if(!b) return;
   filter = b.dataset.t;
@@ -967,7 +1013,7 @@ function renderNews(){
           <article class="tl-card${n.image ? "" : " no-img"}">
             ${n.image ? `<div class="tl-img"><img src="${esc(n.image)}" alt="${esc(n.alt || n.title)}" loading="lazy"${n.imgPos ? ` style="object-position:${esc(n.imgPos)}"` : ""}></div>` : ""}
             <div class="tl-body">
-              ${n.type ? `<span class="tag">${esc(n.type)}</span>` : ""}
+              ${n.type ? `<span class="tag tag-news" style="${tagStyle(n.type)}">${esc(n.type)}</span>` : ""}
               <h3>${esc(n.title)}</h3>
               <div class="tl-text clamp">${(n.text || "").split(/\n\s*\n/).map(p => `<p>${rich(p.trim())}</p>`).join("")}</div>
               <button type="button" class="tl-more" hidden>Read more</button>
@@ -1019,7 +1065,7 @@ function route(){
   document.querySelectorAll("[data-page]").forEach(a => a.classList.toggle("on", a.dataset.page === page));
   $(".subnav").style.display = view === "about" ? "" : "none";
   if (view === "news") requestAnimationFrame(setupMore);
-  document.title = view === "about" ? `${P.name} — Academic Profile` : `${PAGES.find(p => p[0] === page)[1]} — ${P.name}`;
+  document.title = `${P.name}’s Academic Page`;   // tên tab giống nhau ở cả 3 trang
   setHdr();
   requestAnimationFrame(() => {
     if (target) { target.scrollIntoView({ block: target.classList.contains("pub") ? "center" : "start" }); if (target.classList.contains("pub")) { target.classList.remove("flash"); void target.offsetWidth; target.classList.add("flash"); } }
